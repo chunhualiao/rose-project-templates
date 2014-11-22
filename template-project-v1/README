@@ -1,0 +1,17 @@
+Simplest Makefile to build a project using an installed copy of ROSE
+
+You must change both Makefile and set.rose to have correct paths to boost and ROSE:
+
+e.g.:
+
+ROSE_INSTALL=/home/liao6/workspace/rose-2014-10-13/install
+BOOST_INSTALL=/home/liao6/opt/boost_1.47.0
+
+After that, type:
+
+make 
+make check
+make clean
+
+
+

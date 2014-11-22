@@ -1,0 +1,13 @@
+# customize the paths to ROSE and Boost libraries here
+# look at rose/config/Makefile.for.ROSE.includes.and.libs 
+# to grab more variables as needed.
+#ROSE_INSTALL = /home/liao6/workspace/rose-2014-10-13/install
+ROSE_INSTALL = @ROSE_INSTALL_PREFIX@
+#BOOST_INSTALL = /home/liao6/opt/boost_1.47.0
+BOOST_INSTALL = @ac_boost_path@
+
+
+# used for compiling ROSE translators
+ROSE_INCLUDES = -I$(ROSE_INSTALL)/include/rose -I$(BOOST_INSTALL)/include
+ROSE_LIBS = -L$(ROSE_INSTALL)/lib -lrose -lboost_iostreams
+#ROSE_LIBS = $(ROSE_INSTALL)/lib/librose.la -lboost_iostreams

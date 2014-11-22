@@ -1,0 +1,2 @@
+# run auto tools to generate configure, Makefile.in, etc.
+autoreconf -i
