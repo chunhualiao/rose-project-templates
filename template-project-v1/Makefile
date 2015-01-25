@@ -31,7 +31,7 @@ all: $(TRANSLATOR)
 # -g is recommended to be used by default to enable debugging your code
 # Note: depending on the version of boost, you may have to use something like -I $(BOOST_ROOT)/include/boost-1_40 instead. 
 $(TRANSLATOR): $(TRANSLATOR_SOURCE)
-	g++ -g $(TRANSLATOR_SOURCE) -I$(BOOST_INSTALL)/include -I$(ROSE_INSTALL)/include/rose -L$(ROSE_INSTALL)/lib -lrose -lboost_iostreams -o $(TRANSLATOR)
+	g++ -g $(TRANSLATOR_SOURCE) -I$(BOOST_INSTALL)/include -I$(ROSE_INSTALL)/include/rose -L$(ROSE_INSTALL)/lib -lrose -L$(BOOST_INSTALL)/lib -lboost_iostreams -o $(TRANSLATOR)
 
 # test the translator
 check: $(TRANSLATOR)
