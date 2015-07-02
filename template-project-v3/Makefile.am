@@ -9,7 +9,7 @@ INCLUDES =  -I$(ROSE_INSTALL)/include/rose -I$(BOOST_INSTALL)/include
 bin_PROGRAMS = myTranslator
 myTranslator_SOURCES = myTranslator.cpp 
 
-myTranslator_LDADD = -L$(ROSE_INSTALL)/lib -lrose -lboost_iostreams
+myTranslator_LDADD = -L$(ROSE_INSTALL)/lib -lrose -lboost_iostreams -lboost_system
 
 ## Input testcode for your translator
 TESTCODE=hello.cpp

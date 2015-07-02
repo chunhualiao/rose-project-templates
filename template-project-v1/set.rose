@@ -1,4 +1,4 @@
-ROSE_INS=/home/liao6/workspace/rose-2014-10-13/install
+ROSE_INS=/export/liao6/rose/install
 export ROSE_INS 
 
 PATH=$ROSE_INS/bin:$PATH
