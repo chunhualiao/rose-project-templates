@@ -5,6 +5,6 @@ export ROSE_INSTALL
 PATH=$ROSE_INSTALL/bin:$PATH
 export PATH
 
-# using rpath, no need for this 
-#LD_LIBRARY_PATH=$ROSE_INS/lib:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH
+# if you are using rpath, no need for this 
+LD_LIBRARY_PATH=$ROSE_INS/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH

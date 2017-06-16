@@ -1,17 +1,27 @@
 Simplest Makefile to build a project using an installed copy of ROSE
 
-You must change both Makefile and set.rose to have correct paths to boost and ROSE:
+You must change Makefile's ROSE and BOOST installation path or export them as two environment variables with right paths. 
 
 e.g.:
+In Makefile: 
 
 ROSE_INSTALL=/home/liao6/workspace/rose-2014-10-13/install
 BOOST_INSTALL=/home/liao6/opt/boost_1.47.0
+
+Or in bash
+export ROSE_INSTALL=/home/liao6/workspace/rose-2014-10-13/install
+export BOOST_INSTALL=/home/liao6/opt/boost_1.47.0
 
 After that, type:
 
 make 
 make check
 make clean
+
+
+#-------------------- Another makefile sample, makefile2,  is also given
+# it uses $(ROSE_INSTALLED)/bin/rose-config to automatically get all options.
+# this one uses LD_LIBRARY_PATH, so you must modify and source set.rose to run the built translator
 
 
 

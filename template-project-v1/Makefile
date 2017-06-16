@@ -21,6 +21,12 @@ TRANSLATOR_SOURCE=$(TRANSLATOR).cpp
 ## Input testcode for your translator
 TESTCODE=hello.cpp
 
+# The Sawyer lib used in ROSE uses a long list of boost libs
+BOOST_LIBS=-lboost_date_time -lboost_thread -lboost_filesystem -lboost_program_options -lboost_regex -lboost_system -lboost_serialization -lboost_wave -lboost_iostreams 
+
+# Using rpath to avoid using LD_LIBRARY_PATH in environment settings
+LINK_FLAGS=-Wl,-rpath=$(ROSE_INSTALL)/lib -L$(ROSE_INSTALL)/lib -lrose -pthread -Wl,-rpath=$(BOOST_INSTALL)/lib -L$(BOOST_INSTALL)/lib $(BOOST_LIBS) -lm
+
 #-------------------------------------------------------------
 # Makefile Targets
 #-------------------------------------------------------------
@@ -29,9 +35,8 @@ all: $(TRANSLATOR)
 
 # compile the translator and generate an executable
 # -g is recommended to be used by default to enable debugging your code
-# Note: depending on the version of boost, you may have to use something like -I $(BOOST_ROOT)/include/boost-1_40 instead. 
 $(TRANSLATOR): $(TRANSLATOR_SOURCE)
-	g++ -g $(TRANSLATOR_SOURCE) -I$(BOOST_INSTALL)/include -I$(ROSE_INSTALL)/include/rose -Wl,-rpath=$(ROSE_INSTALL)/lib -L$(ROSE_INSTALL)/lib -lrose -L$(BOOST_INSTALL)/lib -lboost_iostreams -lboost_system -o $(TRANSLATOR)
+	g++ -g $(TRANSLATOR_SOURCE) -I$(BOOST_INSTALL)/include -I$(ROSE_INSTALL)/include/rose $(LINK_FLAGS) -o $(TRANSLATOR)
 
 # test the translator
 check: $(TRANSLATOR)
