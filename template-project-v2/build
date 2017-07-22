@@ -1,4 +1,0 @@
-# run auto tools to generate configure, Makefile.in, etc.
-aclocal
-autoconf
-automake --add-missing

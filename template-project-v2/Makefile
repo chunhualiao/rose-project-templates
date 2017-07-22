@@ -9,7 +9,15 @@
 ## ROSE installation contains
 ##   * libraries, e.g. "librose.la"
 ##   * headers, e.g. "rose.h"
-ROSE_INSTALL=/home/liao6/workspace/masterDevClean/install
+ROSE_INSTALL=/home/liao6/opt/latesRose/install
+
+
+## Your Plugin source files
+Plugin=PrintNamesPlugin
+Plugin_SOURCE=$(Plugin).cpp
+
+## Input testcode for your plugin
+TESTCODE=test1.cpp
 
 # Standard C++ compiler stuff (see rose-config --help)
 comma   := ,
@@ -18,30 +26,23 @@ CPPFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cppflags) -I.
 CXXFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cxxflags)
 LIBDIRS  = $(shell $(ROSE_INSTALL)/bin/rose-config libdirs)
 LDFLAGS  = $(shell $(ROSE_INSTALL)/bin/rose-config ldflags) -L. \
-           $(addprefix -Wl$(comma)-rpath -Wl$(comma), $(subst :, , $(LIBDIRS)))
-
-## Your translator
-TRANSLATOR=myTranslator
-TRANSLATOR_SOURCE=$(TRANSLATOR).cpp
-
-## Input testcode for your translator
-TESTCODE=hello.cpp
+           $(addprefix -Wl$(comma)-rpath -Wl$(comma), $(subst :, , $(LIBDIRS))) 
 
 #-------------------------------------------------------------
 # Makefile Targets
 #-------------------------------------------------------------
 
-all: $(TRANSLATOR)
+all: $(Plugin).so
 
-# compile the translator and generate an executable
+# compile the plugin and generate a shared library
 # -g is recommended to be used by default to enable debugging your code
-$(TRANSLATOR): $(TRANSLATOR_SOURCE)
-	$(CXX) -g $(TRANSLATOR_SOURCE) $(CPPFLAGS) $(LDFLAGS) -o $(TRANSLATOR)
+$(Plugin).so: $(Plugin_SOURCE)
+	$(CXX) -g $(Plugin_SOURCE) -fpic -shared $(CPPFLAGS) $(LDFLAGS) -o $@
 
-# test the translator
-check: $(TRANSLATOR)
-	./$(TRANSLATOR) -c -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
+# test the plugin
+check: $(Plugin).so
+	$(ROSE_INSTALL)/bin/identityTranslator -c -rose:plugin_lib $(Plugin).so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
 
 clean:
-	rm -rf $(TRANSLATOR) *.o rose_* *.dot
+	rm -rf $(Plugin).so *.o rose_* *.dot
 
