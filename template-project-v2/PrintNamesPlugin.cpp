@@ -38,5 +38,5 @@ class PrintNamesAction : public Rose::PluginAction {
 };
 
 //Declare a plug entry and register it
-static Rose::PluginRegistry::Add<PrintNamesAction>  X("print-names", "print node names in pre-order");
+static Rose::PluginRegistry::Add<PrintNamesAction>  X("print-names", "print function names in pre-order");
 
