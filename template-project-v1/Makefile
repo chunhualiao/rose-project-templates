@@ -8,17 +8,25 @@
 
 ## ROSE installation contains
 ##   * libraries, e.g. "librose.la"
+
 ##   * headers, e.g. "rose.h"
-ROSE_INSTALL=/home/liao6/workspace/masterDevClean/install
+#If the ROSE bin directory is in your path, rose-config can be found automatically
+ifndef ROSE_INSTALL
+ROSE_INSTALL = $(shell rose-config prefix)
+endif
+
+include $(ROSE_INSTALL)/lib/rose-config.cfg
 
 # Standard C++ compiler stuff (see rose-config --help)
-comma   := ,
-CXX      = $(shell $(ROSE_INSTALL)/bin/rose-config cxx)
-CPPFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cppflags) -I.
-CXXFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cxxflags)
-LIBDIRS  = $(shell $(ROSE_INSTALL)/bin/rose-config libdirs)
-LDFLAGS  = $(shell $(ROSE_INSTALL)/bin/rose-config ldflags) -L. \
-           $(addprefix -Wl$(comma)-rpath -Wl$(comma), $(subst :, , $(LIBDIRS)))
+ROSE_CXX         = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXX)
+ROSE_CPPFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CPPFLAGS)
+ROSE_CXXFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXXFLAGS)
+ROSE_LDFLAGS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LDFLAGS)
+ROSE_LIBDIRS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LIBDIRS)
+ROSE_RPATHS      = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_RPATHS)
+ROSE_LINK_RPATHS = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LINK_RPATHS)
+
+MOSTLYCLEANFILES =
 
 ## Your translator
 TRANSLATOR=myTranslator
@@ -36,7 +44,7 @@ all: $(TRANSLATOR)
 # compile the translator and generate an executable
 # -g is recommended to be used by default to enable debugging your code
 $(TRANSLATOR): $(TRANSLATOR_SOURCE)
-	$(CXX) -g $(TRANSLATOR_SOURCE) $(CPPFLAGS) $(LDFLAGS) -o $(TRANSLATOR)
+	$(ROSE_CXX) $(ROSE_CPPFLAGS) $(ROSE_CXXFLAGS) -o $@ $^ $(ROSE_LDFLAGS) $(ROSE_LINK_RPATHS) -Wl,-rpath=$(ROSE_INSTALL)/lib
 
 # test the translator
 check: $(TRANSLATOR)

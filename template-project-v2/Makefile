@@ -8,9 +8,22 @@
 
 ## ROSE installation contains
 ##   * libraries, e.g. "librose.la"
-##   * headers, e.g. "rose.h"
-ROSE_INSTALL=/home/liao6/opt/latesRose/install
+ifndef ROSE_INSTALL
+ROSE_INSTALL = $(shell rose-config prefix)
+endif
 
+include $(ROSE_INSTALL)/lib/rose-config.cfg
+
+# Standard C++ compiler stuff (see rose-config --help)
+ROSE_CXX         = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXX)
+ROSE_CPPFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CPPFLAGS)
+ROSE_CXXFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXXFLAGS)
+ROSE_LDFLAGS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LDFLAGS)
+ROSE_LIBDIRS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LIBDIRS)
+ROSE_RPATHS      = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_RPATHS)
+ROSE_LINK_RPATHS = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LINK_RPATHS)
+
+MOSTLYCLEANFILES =##   * headers, e.g. "rose.h"
 
 ## Your Plugin source files
 Plugin=PrintNamesPlugin
@@ -18,15 +31,6 @@ Plugin_SOURCE=$(Plugin).cpp
 
 ## Input testcode for your plugin
 TESTCODE=test1.cpp
-
-# Standard C++ compiler stuff (see rose-config --help)
-comma   := ,
-CXX      = $(shell $(ROSE_INSTALL)/bin/rose-config cxx)
-CPPFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cppflags) -I.
-CXXFLAGS = $(shell $(ROSE_INSTALL)/bin/rose-config cxxflags)
-LIBDIRS  = $(shell $(ROSE_INSTALL)/bin/rose-config libdirs)
-LDFLAGS  = $(shell $(ROSE_INSTALL)/bin/rose-config ldflags) -L. \
-           $(addprefix -Wl$(comma)-rpath -Wl$(comma), $(subst :, , $(LIBDIRS))) 
 
 #-------------------------------------------------------------
 # Makefile Targets
@@ -37,11 +41,11 @@ all: $(Plugin).so
 # compile the plugin and generate a shared library
 # -g is recommended to be used by default to enable debugging your code
 $(Plugin).so: $(Plugin_SOURCE)
-	$(CXX) -g $(Plugin_SOURCE) -fpic -shared $(CPPFLAGS) $(LDFLAGS) -o $@
+	$(CXX) -g $(Plugin_SOURCE) -fpic -shared $(ROSE_CPPFLAGS) $(ROSE_LDFLAGS) -o $@
 
 # test the plugin
 check: $(Plugin).so
-	$(ROSE_INSTALL)/bin/identityTranslator -c -rose:plugin_lib $(Plugin).so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
+	$(ROSE_INSTALL)/bin/rose-c++ -c -rose:plugin_lib $(Plugin).so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
 
 clean:
 	rm -rf $(Plugin).so *.o rose_* *.dot
