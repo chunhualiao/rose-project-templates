@@ -11,20 +11,20 @@
 
 ##   * headers, e.g. "rose.h"
 #If the ROSE bin directory is in your path, rose-config can be found automatically
-ifndef ROSE_INSTALL
-ROSE_INSTALL = $(shell rose-config prefix)
+ifndef ROSE_HOME
+ROSE_HOME = $(shell rose-config prefix)
 endif
 
-include $(ROSE_INSTALL)/lib/rose-config.cfg
+include $(ROSE_HOME)/lib/rose-config.cfg
 
 # Standard C++ compiler stuff (see rose-config --help)
-ROSE_CXX         = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXX)
-ROSE_CPPFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CPPFLAGS)
-ROSE_CXXFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXXFLAGS)
-ROSE_LDFLAGS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LDFLAGS)
-ROSE_LIBDIRS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LIBDIRS)
-ROSE_RPATHS      = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_RPATHS)
-ROSE_LINK_RPATHS = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LINK_RPATHS)
+ROSE_CXX         = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CXX)
+ROSE_CPPFLAGS    = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CPPFLAGS)
+ROSE_CXXFLAGS    = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CXXFLAGS)
+ROSE_LDFLAGS     = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LDFLAGS)
+ROSE_LIBDIRS     = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LIBDIRS)
+ROSE_RPATHS      = $(shell $(ROSE_HOME)/bin/rose-config ROSE_RPATHS)
+ROSE_LINK_RPATHS = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LINK_RPATHS)
 
 MOSTLYCLEANFILES =
 
@@ -44,11 +44,11 @@ all: $(TRANSLATOR)
 # compile the translator and generate an executable
 # -g is recommended to be used by default to enable debugging your code
 $(TRANSLATOR): $(TRANSLATOR_SOURCE)
-	$(ROSE_CXX) $(ROSE_CPPFLAGS) $(ROSE_CXXFLAGS) -o $@ $^ $(ROSE_LDFLAGS) $(ROSE_LINK_RPATHS) -Wl,-rpath=$(ROSE_INSTALL)/lib
+	$(ROSE_CXX) $(ROSE_CPPFLAGS) $(ROSE_CXXFLAGS) -o $@ $^ $(ROSE_LDFLAGS) $(ROSE_LINK_RPATHS) -Wl,-rpath=$(ROSE_HOME)/lib
 
 # test the translator
 check: $(TRANSLATOR)
-	./$(TRANSLATOR) -c -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
+	./$(TRANSLATOR) -c -I. -I$(ROSE_HOME)/include $(TESTCODE) 
 
 clean:
 	rm -rf $(TRANSLATOR) *.o rose_* *.dot
