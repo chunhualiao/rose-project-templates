@@ -8,20 +8,20 @@
 
 ## ROSE installation contains
 ##   * libraries, e.g. "librose.la"
-ifndef ROSE_INSTALL
-ROSE_INSTALL = $(shell rose-config prefix)
+ifndef ROSE_HOME
+ROSE_HOME = $(shell rose-config prefix)
 endif
 
-include $(ROSE_INSTALL)/lib/rose-config.cfg
+include $(ROSE_HOME)/lib/rose-config.cfg
 
 # Standard C++ compiler stuff (see rose-config --help)
-ROSE_CXX         = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXX)
-ROSE_CPPFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CPPFLAGS)
-ROSE_CXXFLAGS    = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_CXXFLAGS)
-ROSE_LDFLAGS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LDFLAGS)
-ROSE_LIBDIRS     = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LIBDIRS)
-ROSE_RPATHS      = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_RPATHS)
-ROSE_LINK_RPATHS = $(shell $(ROSE_INSTALL)/bin/rose-config ROSE_LINK_RPATHS)
+ROSE_CXX         = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CXX)
+ROSE_CPPFLAGS    = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CPPFLAGS)
+ROSE_CXXFLAGS    = $(shell $(ROSE_HOME)/bin/rose-config ROSE_CXXFLAGS)
+ROSE_LDFLAGS     = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LDFLAGS)
+ROSE_LIBDIRS     = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LIBDIRS)
+ROSE_RPATHS      = $(shell $(ROSE_HOME)/bin/rose-config ROSE_RPATHS)
+ROSE_LINK_RPATHS = $(shell $(ROSE_HOME)/bin/rose-config ROSE_LINK_RPATHS)
 
 MOSTLYCLEANFILES =##   * headers, e.g. "rose.h"
 
@@ -45,7 +45,7 @@ $(Plugin).so: $(Plugin_SOURCE)
 
 # test the plugin
 check: $(Plugin).so
-	$(ROSE_INSTALL)/bin/rose-c++ -c -rose:plugin_lib $(Plugin).so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -I. -I$(ROSE_INSTALL)/include $(TESTCODE) 
+	$(ROSE_HOME)/bin/rose-c++ -c -rose:plugin_lib $(Plugin).so -rose:plugin_action print-names -rose:plugin_arg_print-names op1 -I. -I$(ROSE_HOME)/include $(TESTCODE) 
 
 clean:
 	rm -rf $(Plugin).so *.o rose_* *.dot
