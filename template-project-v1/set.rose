@@ -1,8 +1,8 @@
 # if you want to builtin tools installed as part of ROSE installation
-ROSE_INSTALL=/home/liao6/workspace/masterDevClean/install
-export ROSE_INSTALL 
+ROSE_HOME=/home/liao6/workspace/masterDevClean/install
+export ROSE_HOME 
 
-PATH=$ROSE_INSTALL/bin:$PATH
+PATH=$ROSE_HOME/bin:$PATH
 export PATH
 
 # if you are using rpath, no need for this 
