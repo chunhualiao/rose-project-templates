@@ -33,7 +33,9 @@ TRANSLATOR=myTranslator
 TRANSLATOR_SOURCE=$(TRANSLATOR).cpp
 
 ## Input testcode for your translator
-TESTCODE=hello.cpp
+INPUT_FILES=hello.cpp
+
+OUTPUT_FILES = $(addprefix rose_,${INPUT_FILES})
 
 #-------------------------------------------------------------
 # Makefile Targets
@@ -46,9 +48,13 @@ all: $(TRANSLATOR)
 $(TRANSLATOR): $(TRANSLATOR_SOURCE)
 	$(ROSE_CXX) $(ROSE_CPPFLAGS) $(ROSE_CXXFLAGS) -o $@ $^ $(ROSE_LDFLAGS) $(ROSE_LINK_RPATHS) -Wl,-rpath=$(ROSE_HOME)/lib
 
+# USING static pattern to define the rule to build output files
+# the order of two requisites matters!!
+$(OUTPUT_FILES): rose_%:% $(TRANSLATOR)        
+	./$(TRANSLATOR) -c -I. -I$(ROSE_HOME)/include $*
+
 # test the translator
-check: $(TRANSLATOR)
-	./$(TRANSLATOR) -c -I. -I$(ROSE_HOME)/include $(TESTCODE) 
+check: $(OUTPUT_FILES)
 
 clean:
 	rm -rf $(TRANSLATOR) *.o rose_* *.dot
