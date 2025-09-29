@@ -1,3 +1,15 @@
+#-----------GCC and Boost environment variables
+# only if you have used special version of GCC and BOOST to build/install ROSE
+
+# The following example is for tux machines that have shared installed versions of GCC and BOOST
+#export GCC_VERSION=10.3.1
+#export BOOST_VERSION=1.69.0
+#if ! source /nfs/casc/overture/ROSE/opt/rhel8/x86_64/rose_environment.sh; then
+#    echo "Failed to source rose_environment.sh"
+#    return 1
+#fi
+
+
 # if you want to builtin tools installed as part of ROSE installation
 ROSE_HOME=/home/liao6/workspace/masterDevClean/install
 export ROSE_HOME 
