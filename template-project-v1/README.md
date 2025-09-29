@@ -5,6 +5,10 @@ First, edit set.rose to point to your path of an installed copy of ROSE
 
 ```
 # set.rose
+
+# if you use special version of GCC and/or BOOST to build/install ROSE
+# you should also export their environment variables. 
+
 # if you want to builtin tools installed as part of ROSE installation
 ROSE_HOME=/home/liao6/workspace/masterDevClean/install
 export ROSE_HOME 
