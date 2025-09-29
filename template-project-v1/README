@@ -1,27 +1,45 @@
 Simplest Makefile to build a project using an installed copy of ROSE
+* it uses $(ROSE_HOME)/bin/rose-config to automatically get all options.
 
-You must change Makefile's ROSE and BOOST installation path or export them as two environment variables with right paths. 
+First, edit set.rose to point to your path of an installed copy of ROSE
 
-e.g.:
-In Makefile: 
+```
+# set.rose
+# if you want to builtin tools installed as part of ROSE installation
+ROSE_HOME=/home/liao6/workspace/masterDevClean/install
+export ROSE_HOME 
 
-ROSE_HOME=/home/liao6/workspace/rose-2014-10-13/install
-BOOST_INSTALL=/home/liao6/opt/boost_1.47.0
+PATH=$ROSE_HOME/bin:$PATH
+export PATH
 
-Or in bash
-export ROSE_HOME=/home/liao6/workspace/rose-2014-10-13/install
-export BOOST_INSTALL=/home/liao6/opt/boost_1.47.0
+# if you are using rpath, no need for this 
+LD_LIBRARY_PATH=$ROSE_INS/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+```
+
 
 After that, type:
+```
+# run set.rose to setup environment variables
+source set.rose
+
+# build the translator
 
 make 
+
+# run the translator to process input file: hello.cp
 make check
+
+# at this point, the output file rose_hello.cpp should be generated
+
+ls
+hello.cpp  hello.o  Makefile  myTranslator  myTranslator.cpp  README  rose_hello.cpp  set.rose
+
+# clean up everything
 make clean
+```
 
 
-#-------------------- Another makefile sample, makefile2,  is also given
-# it uses $(ROSE_HOMEED)/bin/rose-config to automatically get all options.
-# this one uses LD_LIBRARY_PATH, so you must modify and source set.rose to run the built translator
 
 
 
