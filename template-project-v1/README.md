@@ -30,7 +30,10 @@ make
 # run the translator to process input file: hello.cp
 make check
 
-# at this point, the output file rose_hello.cpp should be generated
+# a command line like the following will show up:
+./myTranslator -c -I. -I/home/path/to/rose/installed/include hello.cpp
+
+# At this point, the output file rose_hello.cpp should be generated
 
 ls
 hello.cpp  hello.o  Makefile  myTranslator  myTranslator.cpp  README  rose_hello.cpp  set.rose
